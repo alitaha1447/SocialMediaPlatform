@@ -59,8 +59,8 @@ app.use("/posts", postRoutes);
 /* MONGOOSE SETUP */
 
 dbConnection();
-app.listen(2000, () => {
-  console.log("server is listening on port 2000...");
+app.listen(5000, () => {
+  console.log("server is listening on port 5000...");
   /* ADD DATA ONE TIME */
   // User.insertMany(users);
   // Post.insertMany(posts);
