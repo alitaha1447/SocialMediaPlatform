@@ -1,3 +1,4 @@
+
 import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
@@ -23,7 +24,9 @@ const PostWidget = ({
   likes,
   comments,
 }) => {
-  const [isComments, setIsComments] = useState(true);
+  const [isComments, setIsComments] = useState(false);
+  const [postComments, setPostComments] = useState(''); // State to hold comments
+
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -46,6 +49,16 @@ const PostWidget = ({
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
   };
+
+  const handleComment = () => {
+    const comment = prompt("Enter your comment:");
+    if (comment) {
+      const updatedComments = [...postComments, comment];
+      setPostComments(updatedComments);
+      setIsComments(true)
+    }
+  };
+
 
   return (
     <WidgetWrapper m="2rem 0">
@@ -82,19 +95,18 @@ const PostWidget = ({
 
           <FlexBetween gap="0.3rem">
             <IconButton onClick={() => setIsComments(!isComments)}>
-              <ChatBubbleOutlineOutlined />
+              <ChatBubbleOutlineOutlined onClick={handleComment} />
             </IconButton>
-            <Typography>{comments.length}</Typography>
+            <Typography>{postComments.length}</Typography>
           </FlexBetween>
         </FlexBetween>
-
         <IconButton>
           <ShareOutlined />
         </IconButton>
       </FlexBetween>
       {isComments && (
         <Box mt="0.5rem">
-          {comments.map((comment, i) => (
+          {postComments.map((comment, i) => (
             <Box key={`${name}-${i}`}>
               <Divider />
               <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
